@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vue formulaire Vente -->
+    <record id="view_pharmacie_vente_form" model="ir.ui.view">
+        <field name="name">pharmacie.vente.form</field>
+        <field name="model">pharmacie.vente</field>
+        <field name="arch" type="xml">
+            <form string="Vente au comptoir">
+                <header>
+                    <button name="action_confirmer" string="Confirmer la vente"
+                            type="object" class="btn-primary"
+                            invisible="statut != 'brouillon'"/>
+                    <button name="action_annuler" string="Annuler"
+                            type="object" class="btn-secondary"
+                            invisible="statut != 'brouillon'"/>
+                    <button name="%(pharmacie_management.action_report_ticket_caisse)d"
+                            string="Imprimer le ticket" type="action"
+                            invisible="statut != 'confirme'"/>
+                    <field name="statut" widget="statusbar"
+                           statusbar_visible="brouillon,confirme,annule"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="reference"/>
+                        <h1><field name="reference" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Informations de vente">
+                            <field name="client_id"/>
+                            <field name="vendeur_id"/>
+                            <field name="date_vente" readonly="1"/>
+                            <field name="mode_paiement"/>
+                        </group>
+                        <group string="Ordonnance">
+                            <field name="ordonnance_id"/>
+                        </group>
+                    </group>
+                    <!-- Lignes de vente -->
+                    <field name="ligne_ids">
+                        <list editable="bottom">
+                            <field name="medicament_id" options="{'no_create': True}"/>
+                            <field name="lot_id" optional="show"/>
+                            <field name="quantite"/>
+                            <field name="prix_unitaire"/>
+                            <field name="taux_tva" readonly="1"/>
+                            <field name="montant_ht" readonly="1"/>
+                            <field name="montant_tva" readonly="1"/>
+                            <field name="montant_ttc" readonly="1"/>
+                            <field name="sur_ordonnance" readonly="1" widget="boolean"/>
+                        </list>
+                    </field>
+                    <!-- Totaux -->
+                    <group class="oe_subtotal_footer">
+                        <field name="montant_ht" readonly="1"/>
+                        <field name="tva" readonly="1"/>
+                        <div class="oe_subtotal_footer_separator"/>
+                        <field name="montant_ttc" readonly="1" class="oe_subtotal_footer_separator"/>
+                    </group>
+                    <field name="note" placeholder="Observations..."/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue liste Vente -->
+    <record id="view_pharmacie_vente_tree" model="ir.ui.view">
+        <field name="name">pharmacie.vente.tree</field>
+        <field name="model">pharmacie.vente</field>
+        <field name="arch" type="xml">
+            <list string="Ventes"
+                  decoration-success="statut == 'confirme'"
+                  decoration-muted="statut == 'annule'">
+                <field name="reference"/>
+                <field name="date_vente"/>
+                <field name="client_id"/>
+                <field name="vendeur_id"/>
+                <field name="montant_ttc" sum="Total TTC"/>
+                <field name="mode_paiement"/>
+                <field name="statut"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue recherche Vente -->
+    <record id="view_pharmacie_vente_search" model="ir.ui.view">
+        <field name="name">pharmacie.vente.search</field>
+        <field name="model">pharmacie.vente</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reference"/>
+                <field name="client_id"/>
+                <field name="vendeur_id"/>
+                <separator/>
+                <filter name="confirme" string="Confirmées"
+                        domain="[('statut', '=', 'confirme')]"/>
+                <filter name="brouillon" string="Brouillons"
+                        domain="[('statut', '=', 'brouillon')]"/>
+                <filter name="today" string="Aujourd'hui"
+                        domain="[('date_vente', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <separator/>
+                <group expand="1" string="Regrouper par">
+                    <filter name="by_vendeur" string="Vendeur"
+                            context="{'group_by': 'vendeur_id'}"/>
+                    <filter name="by_mode" string="Mode de paiement"
+                            context="{'group_by': 'mode_paiement'}"/>
+                    <filter name="by_date" string="Date"
+                            context="{'group_by': 'date_vente:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Vente -->
+    <record id="action_pharmacie_vente" model="ir.actions.act_window">
+        <field name="path">pharmacie-vente</field>
+        <field name="name">Historique des ventes</field>
+        <field name="res_model">pharmacie.vente</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_pharmacie_vente_search"/>
+    </record>
+
+    <!-- Action : Nouvelle vente -->
+    <record id="action_pharmacie_vente_new" model="ir.actions.act_window">
+        <field name="path">pharmacie-vente-new</field>
+        <field name="name">Nouvelle vente</field>
+        <field name="res_model">pharmacie.vente</field>
+        <field name="view_mode">form,list</field>
+        <field name="context">{'default_statut': 'brouillon'}</field>
+    </record>
+
+</odoo>

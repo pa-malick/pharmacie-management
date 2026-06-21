@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- ════════════════════════════════════════════════════════════
+         CATÉGORIE DU MODULE
+    ════════════════════════════════════════════════════════════ -->
+    <record id="module_category_pharmacie" model="ir.module.category">
+      <field name="name">Pharmacie Management</field>
+      <field name="description">Gestion d'officine pharmaceutique</field>
+      <field name="sequence">100</field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         GROUPE 1 : VENDEUR
+         - Créer/voir les ventes et ordonnances
+         - Lecture seule sur médicaments et stocks
+    ════════════════════════════════════════════════════════════ -->
+    <record id="group_pharmacie_vendeur" model="res.groups">
+      <field name="name">Vendeur</field>
+      <field name="category_id" ref="module_category_pharmacie"/>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         GROUPE 2 : PHARMACIEN
+         - Accès complet au catalogue et aux stocks
+         - Saisie et validation des ventes et ordonnances
+         - Gestion des réapprovisionnements
+    ════════════════════════════════════════════════════════════ -->
+    <record id="group_pharmacie_pharmacien" model="res.groups">
+      <field name="name">Pharmacien</field>
+      <field name="category_id" ref="module_category_pharmacie"/>
+      <field name="implied_ids" eval="[(4, ref('group_pharmacie_vendeur'))]"/>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         GROUPE 3 : GESTIONNAIRE
+         - Accès complet à tout le module
+         - Rapports financiers et configuration
+    ════════════════════════════════════════════════════════════ -->
+    <record id="group_pharmacie_gestionnaire" model="res.groups">
+      <field name="name">Gestionnaire</field>
+      <field name="category_id" ref="module_category_pharmacie"/>
+      <field name="implied_ids" eval="[(4, ref('group_pharmacie_pharmacien'))]"/>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         RECORD RULE : Vendeur ne voit que ses propres ventes
+    ════════════════════════════════════════════════════════════ -->
+    <record id="rule_vendeur_own_ventes" model="ir.rule">
+      <field name="name">Vendeur — ses ventes uniquement</field>
+      <field name="model_id" ref="model_pharmacie_vente"/>
+      <field name="domain_force">[('vendeur_id', '=', user.id)]</field>
+      <field name="groups" eval="[(4, ref('group_pharmacie_vendeur'))]"/>
+      <field name="perm_read">1</field>
+      <field name="perm_write">1</field>
+      <field name="perm_create">1</field>
+      <field name="perm_unlink">0</field>
+    </record>
+
+    <!-- Le Pharmacien et le Gestionnaire voient toutes les ventes (surcharge) -->
+    <record id="rule_pharmacien_all_ventes" model="ir.rule">
+      <field name="name">Pharmacien/Gestionnaire — toutes les ventes</field>
+      <field name="model_id" ref="model_pharmacie_vente"/>
+      <field name="domain_force">[(1, '=', 1)]</field>
+      <field name="groups" eval="[(4, ref('group_pharmacie_pharmacien'))]"/>
+    </record>
+
+  </data>
+</odoo>

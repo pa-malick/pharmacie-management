@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_ticket_caisse_template">
+    <t t-foreach="docs" t-as="vente">
+      <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+          <div class="page">
+
+            <!-- En-tête -->
+            <div class="row mb-4">
+              <div class="col-12 text-center">
+                <h2 class="text-uppercase">TICKET DE CAISSE</h2>
+                <p class="text-muted">Pharmacie — <t t-esc="vente.company_id.name"/></p>
+                <p><t t-esc="vente.company_id.street"/> — <t t-esc="vente.company_id.city"/></p>
+                <p>Tél : <t t-esc="vente.company_id.phone"/></p>
+              </div>
+            </div>
+
+            <!-- Informations vente -->
+            <div class="row mb-3">
+              <div class="col-6">
+                <table class="table table-sm table-borderless">
+                  <tr>
+                    <td><strong>Référence :</strong></td>
+                    <td><t t-esc="vente.reference"/></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Date :</strong></td>
+                    <td><t t-esc="vente.date_vente" t-options='{"widget": "datetime", "format": "dd/MM/yyyy HH:mm"}'/></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Vendeur :</strong></td>
+                    <td><t t-esc="vente.vendeur_id.name"/></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Mode paiement :</strong></td>
+                    <td><t t-esc="dict(vente.fields_get(['mode_paiement'])['mode_paiement']['selection'])[vente.mode_paiement]"/></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-6">
+                <t t-if="vente.client_id">
+                  <table class="table table-sm table-borderless">
+                    <tr>
+                      <td><strong>Client :</strong></td>
+                      <td><t t-esc="vente.client_id.name"/></td>
+                    </tr>
+                  </table>
+                </t>
+                <t t-if="vente.ordonnance_id">
+                  <div class="alert alert-info p-2">
+                    <small>
+                      <strong>Ordonnance :</strong>
+                      <t t-esc="vente.ordonnance_id.reference"/> —
+                      Dr <t t-esc="vente.ordonnance_id.medecin_nom"/>
+                    </small>
+                  </div>
+                </t>
+              </div>
+            </div>
+
+            <!-- Tableau des articles -->
+            <table class="table table-bordered table-striped table-sm">
+              <thead class="table-dark">
+                <tr>
+                  <th>Médicament</th>
+                  <th>DCI</th>
+                  <th class="text-center">Qté</th>
+                  <th class="text-right">PU (FCFA)</th>
+                  <th class="text-center">TVA</th>
+                  <th class="text-right">Total TTC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <t t-foreach="vente.ligne_ids" t-as="ligne">
+                  <tr>
+                    <td><t t-esc="ligne.medicament_id.nom_commercial"/></td>
+                    <td><t t-esc="ligne.medicament_id.dci or '—'"/></td>
+                    <td class="text-center"><t t-esc="ligne.quantite"/></td>
+                    <td class="text-right"><t t-esc="'%s' % int(ligne.prix_unitaire)"/> FCFA</td>
+                    <td class="text-center"><t t-esc="int(ligne.taux_tva)"/>%</td>
+                    <td class="text-right"><t t-esc="'%s' % int(ligne.montant_ttc)"/> FCFA</td>
+                  </tr>
+                </t>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5" class="text-right"><strong>Montant HT :</strong></td>
+                  <td class="text-right"><t t-esc="'%s' % int(vente.montant_ht)"/> FCFA</td>
+                </tr>
+                <tr>
+                  <td colspan="5" class="text-right">TVA :</td>
+                  <td class="text-right"><t t-esc="'%s' % int(vente.tva)"/> FCFA</td>
+                </tr>
+                <tr class="table-success">
+                  <td colspan="5" class="text-right"><strong>TOTAL TTC :</strong></td>
+                  <td class="text-right"><strong><t t-esc="'%s' % int(vente.montant_ttc)"/> FCFA</strong></td>
+                </tr>
+              </tfoot>
+            </table>
+
+            <!-- Pied de page ticket -->
+            <div class="text-center mt-4">
+              <p><em>Merci pour votre confiance — Revenez nous voir !</em></p>
+              <p class="text-muted"><small>Ce ticket est votre justificatif d'achat — conservez-le.</small></p>
+            </div>
+
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

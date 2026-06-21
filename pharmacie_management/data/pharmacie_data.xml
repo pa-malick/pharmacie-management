@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- ════════════════════════════════════════════════════════════
+         SÉQUENCES
+    ════════════════════════════════════════════════════════════ -->
+    <record id="seq_pharmacie_medicament" model="ir.sequence">
+      <field name="name">Référence médicament</field>
+      <field name="code">pharmacie.medicament</field>
+      <field name="prefix">MED/%(year)s/</field>
+      <field name="padding">4</field>
+      <field name="number_increment">1</field>
+    </record>
+
+    <record id="seq_pharmacie_lot" model="ir.sequence">
+      <field name="name">Numéro de lot</field>
+      <field name="code">pharmacie.lot</field>
+      <field name="prefix">LOT/%(year)s/</field>
+      <field name="padding">4</field>
+      <field name="number_increment">1</field>
+    </record>
+
+    <record id="seq_pharmacie_vente" model="ir.sequence">
+      <field name="name">Référence vente</field>
+      <field name="code">pharmacie.vente</field>
+      <field name="prefix">VTE/%(year)s/</field>
+      <field name="padding">4</field>
+      <field name="number_increment">1</field>
+    </record>
+
+    <record id="seq_pharmacie_ordonnance" model="ir.sequence">
+      <field name="name">Référence ordonnance</field>
+      <field name="code">pharmacie.ordonnance</field>
+      <field name="prefix">ORD/%(year)s/</field>
+      <field name="padding">4</field>
+      <field name="number_increment">1</field>
+    </record>
+
+    <record id="seq_pharmacie_reappro" model="ir.sequence">
+      <field name="name">Référence bon de commande</field>
+      <field name="code">pharmacie.reappro</field>
+      <field name="prefix">BC/%(year)s/</field>
+      <field name="padding">4</field>
+      <field name="number_increment">1</field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         CATÉGORIES THÉRAPEUTIQUES DE DÉMONSTRATION
+    ════════════════════════════════════════════════════════════ -->
+    <record id="cat_antibiotiques" model="pharmacie.categorie">
+      <field name="name">Antibiotiques</field>
+      <field name="code">ATB</field>
+      <field name="description">Médicaments destinés à combattre les infections bactériennes</field>
+    </record>
+
+    <record id="cat_penicillines" model="pharmacie.categorie">
+      <field name="name">Pénicillines</field>
+      <field name="code">PEN</field>
+      <field name="parent_id" ref="cat_antibiotiques"/>
+    </record>
+
+    <record id="cat_analgesiques" model="pharmacie.categorie">
+      <field name="name">Analgésiques / Antipyrétiques</field>
+      <field name="code">ANA</field>
+      <field name="description">Médicaments contre la douleur et la fièvre</field>
+    </record>
+
+    <record id="cat_antipaludeens" model="pharmacie.categorie">
+      <field name="name">Antipaludéens</field>
+      <field name="code">APL</field>
+      <field name="description">Médicaments contre le paludisme — traitement prioritaire au Sénégal</field>
+    </record>
+
+    <record id="cat_antihypertenseurs" model="pharmacie.categorie">
+      <field name="name">Antihypertenseurs</field>
+      <field name="code">AHT</field>
+    </record>
+
+    <record id="cat_vitamines" model="pharmacie.categorie">
+      <field name="name">Vitamines et compléments</field>
+      <field name="code">VIT</field>
+    </record>
+
+    <record id="cat_dermatologie" model="pharmacie.categorie">
+      <field name="name">Dermatologie</field>
+      <field name="code">DER</field>
+    </record>
+
+    <record id="cat_psychotropes" model="pharmacie.categorie">
+      <field name="name">Psychotropes</field>
+      <field name="code">PSY</field>
+      <field name="description">Médicaments agissant sur le système nerveux central — sur ordonnance obligatoire</field>
+    </record>
+
+  </data>
+</odoo>

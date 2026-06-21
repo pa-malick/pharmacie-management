@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_bilan_caisse_template">
+    <!-- docs contient le wizard.bilan.caisse -->
+    <t t-foreach="docs" t-as="wizard">
+      <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+          <div class="page">
+
+            <!-- En-tête -->
+            <div class="row mb-4">
+              <div class="col-8">
+                <h2>BILAN DE CAISSE</h2>
+                <p>
+                  Période : du
+                  <strong><t t-esc="wizard.date_debut" t-options='{"widget": "date", "format": "dd/MM/yyyy"}'/></strong>
+                  au
+                  <strong><t t-esc="wizard.date_fin" t-options='{"widget": "date", "format": "dd/MM/yyyy"}'/></strong>
+                </p>
+                <p class="text-muted">
+                  Édité le : <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y à %H:%M')"/>
+                </p>
+              </div>
+            </div>
+
+            <!-- Indicateurs clés -->
+            <div class="row mb-4">
+              <div class="col-4">
+                <div class="card text-center p-3">
+                  <h4><t t-esc="'%s' % int(wizard.ca_total)"/> FCFA</h4>
+                  <p class="text-muted mb-0">Chiffre d'affaires TTC</p>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card text-center p-3">
+                  <h4><t t-esc="wizard.nb_ventes"/></h4>
+                  <p class="text-muted mb-0">Nombre de ventes</p>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card text-center p-3">
+                  <h4><t t-esc="'%s' % int(wizard.panier_moyen)"/> FCFA</h4>
+                  <p class="text-muted mb-0">Panier moyen</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Détail par vendeur -->
+            <h4 class="mt-4">Détail par vendeur</h4>
+            <table class="table table-bordered table-striped">
+              <thead class="table-dark">
+                <tr>
+                  <th>Vendeur</th>
+                  <th class="text-center">Nb ventes</th>
+                  <th class="text-right">CA TTC (FCFA)</th>
+                  <th class="text-right">Panier moyen (FCFA)</th>
+                  <th class="text-right">Part (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <t t-foreach="wizard.ligne_ids" t-as="ligne">
+                  <tr>
+                    <td><t t-esc="ligne.vendeur_id.name"/></td>
+                    <td class="text-center"><t t-esc="ligne.nb_ventes"/></td>
+                    <td class="text-right"><t t-esc="'%s' % int(ligne.ca_vendeur)"/></td>
+                    <td class="text-right"><t t-esc="'%s' % int(ligne.panier_moyen)"/></td>
+                    <td class="text-right">
+                      <t t-esc="'%.1f' % (ligne.ca_vendeur / wizard.ca_total * 100 if wizard.ca_total else 0)"/>%
+                    </td>
+                  </tr>
+                </t>
+              </tbody>
+              <tfoot>
+                <tr class="table-success font-weight-bold">
+                  <td><strong>TOTAL</strong></td>
+                  <td class="text-center"><strong><t t-esc="wizard.nb_ventes"/></strong></td>
+                  <td class="text-right"><strong><t t-esc="'%s' % int(wizard.ca_total)"/> FCFA</strong></td>
+                  <td class="text-right"><strong><t t-esc="'%s' % int(wizard.panier_moyen)"/> FCFA</strong></td>
+                  <td class="text-right"><strong>100%</strong></td>
+                </tr>
+              </tfoot>
+            </table>
+
+            <!-- Signature -->
+            <div class="row mt-5">
+              <div class="col-6">
+                <p>Fait à Dakar, le <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></p>
+              </div>
+              <div class="col-6 text-right">
+                <p><strong>Le Pharmacien Responsable</strong></p>
+                <br/><br/>
+                <p>___________________________</p>
+                <p><em>(Signature et cachet)</em></p>
+              </div>
+            </div>
+
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

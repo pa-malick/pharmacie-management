@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- ════════════════════════════════════════════════════════════
+         FOURNISSEURS PHARMACEUTIQUES (3)
+    ════════════════════════════════════════════════════════════ -->
+    <record id="fournisseur_laborex" model="res.partner">
+      <field name="name">Laborex Sénégal</field>
+      <field name="is_company">True</field>
+      <field name="is_fournisseur_pharma">True</field>
+      <field name="street">Route de Rufisque, Zone Industrielle</field>
+      <field name="city">Dakar</field>
+      <field name="country_id" ref="base.sn"/>
+      <field name="phone">+221 33 879 00 00</field>
+      <field name="email">commandes@laborex.sn</field>
+      <field name="numero_agrement">DPM/AG/2019/0042</field>
+      <field name="delai_livraison_moyen">3</field>
+      <field name="supplier_rank">1</field>
+    </record>
+
+    <record id="fournisseur_cophase" model="res.partner">
+      <field name="name">COPHASE — Comptoir Pharmaceutique du Sénégal</field>
+      <field name="is_company">True</field>
+      <field name="is_fournisseur_pharma">True</field>
+      <field name="street">Boulevard du Centenaire de la Commune de Dakar</field>
+      <field name="city">Dakar</field>
+      <field name="country_id" ref="base.sn"/>
+      <field name="phone">+221 33 832 00 00</field>
+      <field name="email">approvisionnement@cophase.sn</field>
+      <field name="numero_agrement">DPM/AG/2015/0018</field>
+      <field name="delai_livraison_moyen">5</field>
+      <field name="supplier_rank">1</field>
+    </record>
+
+    <record id="fournisseur_global_pharma" model="res.partner">
+      <field name="name">Global Pharma Dakar</field>
+      <field name="is_company">True</field>
+      <field name="is_fournisseur_pharma">True</field>
+      <field name="street">Liberté 6, Allée Seydou Nourou Tall</field>
+      <field name="city">Dakar</field>
+      <field name="country_id" ref="base.sn"/>
+      <field name="phone">+221 33 867 45 12</field>
+      <field name="email">contact@globalpharma.sn</field>
+      <field name="numero_agrement">DPM/AG/2020/0075</field>
+      <field name="delai_livraison_moyen">2</field>
+      <field name="supplier_rank">1</field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         CLIENTS DE DÉMONSTRATION
+    ════════════════════════════════════════════════════════════ -->
+    <record id="client_demo_1" model="res.partner">
+      <field name="name">Aminata Diallo</field>
+      <field name="is_company">False</field>
+      <field name="city">Dakar</field>
+      <field name="country_id" ref="base.sn"/>
+      <field name="phone">+221 77 512 34 56</field>
+    </record>
+
+    <record id="client_demo_2" model="res.partner">
+      <field name="name">Moussa Ndiaye</field>
+      <field name="is_company">False</field>
+      <field name="city">Dakar</field>
+      <field name="country_id" ref="base.sn"/>
+      <field name="phone">+221 76 234 89 01</field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         MÉDICAMENTS (10)
+    ════════════════════════════════════════════════════════════ -->
+
+    <!-- 1 — Amoxicilline (Clamoxyl) -->
+    <record id="med_amoxicilline" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0001</field>
+      <field name="nom_commercial">Clamoxyl®</field>
+      <field name="dci">Amoxicilline</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">500 mg</field>
+      <field name="conditionnement">Boîte de 24 comprimés</field>
+      <field name="categorie_id" ref="cat_penicillines"/>
+      <field name="fournisseur_id" ref="fournisseur_laborex"/>
+      <field name="prix_achat">2500</field>
+      <field name="prix_vente">3500</field>
+      <field name="taux_tva">0</field>
+      <field name="sur_ordonnance">True</field>
+      <field name="alerte_rupture">20</field>
+      <field name="notice">Antibiotique de la famille des pénicillines. Indiqué dans le traitement des infections bactériennes ORL, respiratoires et urinaires. Durée habituelle : 7 jours.</field>
+    </record>
+
+    <!-- 2 — Paracétamol (Doliprane) -->
+    <record id="med_paracetamol" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0002</field>
+      <field name="nom_commercial">Doliprane®</field>
+      <field name="dci">Paracétamol</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">500 mg</field>
+      <field name="conditionnement">Boîte de 16 comprimés</field>
+      <field name="categorie_id" ref="cat_analgesiques"/>
+      <field name="fournisseur_id" ref="fournisseur_cophase"/>
+      <field name="prix_achat">800</field>
+      <field name="prix_vente">1200</field>
+      <field name="taux_tva">0</field>
+      <field name="sur_ordonnance">False</field>
+      <field name="alerte_rupture">50</field>
+      <field name="notice">Analgésique et antipyrétique. Posologie adulte : 1 à 2 comprimés toutes les 4 à 6 heures. Ne pas dépasser 8 comprimés par jour.</field>
+    </record>
+
+    <!-- 3 — Artéméther/Luméfantrine (Coartem) -->
+    <record id="med_coartem" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0003</field>
+      <field name="nom_commercial">Coartem®</field>
+      <field name="dci">Artéméther / Luméfantrine</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">20 mg / 120 mg</field>
+      <field name="conditionnement">Boîte de 24 comprimés</field>
+      <field name="categorie_id" ref="cat_antipaludeens"/>
+      <field name="fournisseur_id" ref="fournisseur_laborex"/>
+      <field name="prix_achat">4500</field>
+      <field name="prix_vente">6000</field>
+      <field name="taux_tva">0</field>
+      <field name="sur_ordonnance">False</field>
+      <field name="alerte_rupture">30</field>
+      <field name="notice">Antipaludéen de première intention au Sénégal. Traitement sur 3 jours, 2 prises par jour. Prendre avec un repas gras pour améliorer l'absorption.</field>
+    </record>
+
+    <!-- 4 — Amlodipine (Amlor) -->
+    <record id="med_amlodipine" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0004</field>
+      <field name="nom_commercial">Amlor®</field>
+      <field name="dci">Amlodipine</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">5 mg</field>
+      <field name="conditionnement">Boîte de 30 comprimés</field>
+      <field name="categorie_id" ref="cat_antihypertenseurs"/>
+      <field name="fournisseur_id" ref="fournisseur_global_pharma"/>
+      <field name="prix_achat">5500</field>
+      <field name="prix_vente">7500</field>
+      <field name="taux_tva">18</field>
+      <field name="sur_ordonnance">True</field>
+      <field name="alerte_rupture">15</field>
+      <field name="notice">Inhibiteur calcique. Traitement de l'hypertension artérielle et de l'angine de poitrine. Prise unique quotidienne.</field>
+    </record>
+
+    <!-- 5 — Ibuprofène (Advil) -->
+    <record id="med_ibuprofene" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0005</field>
+      <field name="nom_commercial">Advil®</field>
+      <field name="dci">Ibuprofène</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">400 mg</field>
+      <field name="conditionnement">Boîte de 20 comprimés</field>
+      <field name="categorie_id" ref="cat_analgesiques"/>
+      <field name="fournisseur_id" ref="fournisseur_cophase"/>
+      <field name="prix_achat">1500</field>
+      <field name="prix_vente">2200</field>
+      <field name="taux_tva">0</field>
+      <field name="sur_ordonnance">False</field>
+      <field name="alerte_rupture">30</field>
+      <field name="notice">Anti-inflammatoire non stéroïdien (AINS). À prendre au cours des repas. Contre-indiqué en cas de grossesse, ulcère gastrique ou insuffisance rénale.</field>
+    </record>
+
+    <!-- 6 — Vitamine C (Cévirex) -->
+    <record id="med_vitamine_c" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0006</field>
+      <field name="nom_commercial">Cévirex®</field>
+      <field name="dci">Acide ascorbique</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">500 mg</field>
+      <field name="conditionnement">Tube de 20 comprimés effervescents</field>
+      <field name="categorie_id" ref="cat_vitamines"/>
+      <field name="fournisseur_id" ref="fournisseur_global_pharma"/>
+      <field name="prix_achat">600</field>
+      <field name="prix_vente">900</field>
+      <field name="taux_tva">18</field>
+      <field name="sur_ordonnance">False</field>
+      <field name="alerte_rupture">20</field>
+    </record>
+
+    <!-- 7 — Chloroquine (Nivaquine) -->
+    <record id="med_chloroquine" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0007</field>
+      <field name="nom_commercial">Nivaquine®</field>
+      <field name="dci">Chloroquine</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">100 mg</field>
+      <field name="conditionnement">Boîte de 30 comprimés</field>
+      <field name="categorie_id" ref="cat_antipaludeens"/>
+      <field name="fournisseur_id" ref="fournisseur_laborex"/>
+      <field name="prix_achat">1200</field>
+      <field name="prix_vente">1800</field>
+      <field name="taux_tva">0</field>
+      <field name="sur_ordonnance">True</field>
+      <field name="alerte_rupture">25</field>
+      <field name="notice">Antipaludéen utilisé en prophylaxie. Réservé aux zones de sensibilité confirmée. Sur ordonnance médicale obligatoire.</field>
+    </record>
+
+    <!-- 8 — Ciprofloxacine (Ciflox) -->
+    <record id="med_ciprofloxacine" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0008</field>
+      <field name="nom_commercial">Ciflox®</field>
+      <field name="dci">Ciprofloxacine</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">500 mg</field>
+      <field name="conditionnement">Boîte de 10 comprimés</field>
+      <field name="categorie_id" ref="cat_antibiotiques"/>
+      <field name="fournisseur_id" ref="fournisseur_cophase"/>
+      <field name="prix_achat">3000</field>
+      <field name="prix_vente">4500</field>
+      <field name="taux_tva">0</field>
+      <field name="sur_ordonnance">True</field>
+      <field name="alerte_rupture">15</field>
+      <field name="notice">Fluoroquinolone à large spectre. Infections urinaires compliquées, infections respiratoires basses. Durée : 7 à 14 jours selon indication.</field>
+    </record>
+
+    <!-- 9 — Diazépam (Valium) — psychotrope -->
+    <record id="med_diazepam" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0009</field>
+      <field name="nom_commercial">Valium®</field>
+      <field name="dci">Diazépam</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">5 mg</field>
+      <field name="conditionnement">Boîte de 30 comprimés</field>
+      <field name="categorie_id" ref="cat_psychotropes"/>
+      <field name="fournisseur_id" ref="fournisseur_global_pharma"/>
+      <field name="prix_achat">2200</field>
+      <field name="prix_vente">3200</field>
+      <field name="taux_tva">18</field>
+      <field name="sur_ordonnance">True</field>
+      <field name="alerte_rupture">10</field>
+      <field name="notice">Benzodiazépine. Anxiolytique, myorelaxant. Prescription et dispensation strictement encadrées. Ordonnance sécurisée obligatoire. Risque de dépendance.</field>
+    </record>
+
+    <!-- 10 — Cotrimoxazole (Bactrim) -->
+    <record id="med_cotrimoxazole" model="pharmacie.medicament">
+      <field name="reference">MED/2025/0010</field>
+      <field name="nom_commercial">Bactrim Forte®</field>
+      <field name="dci">Sulfaméthoxazole / Triméthoprime</field>
+      <field name="forme">comprime</field>
+      <field name="dosage">800 mg / 160 mg</field>
+      <field name="conditionnement">Boîte de 12 comprimés</field>
+      <field name="categorie_id" ref="cat_antibiotiques"/>
+      <field name="fournisseur_id" ref="fournisseur_laborex"/>
+      <field name="prix_achat">1800</field>
+      <field name="prix_vente">2600</field>
+      <field name="taux_tva">0</field>
+      <field name="sur_ordonnance">True</field>
+      <field name="alerte_rupture">20</field>
+      <field name="notice">Association antibiotique bactéricide. Infections urinaires, ORL, pneumocystose. Surveillance de la fonction rénale recommandée.</field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         LOTS DE STOCK (7 lots sur 5 médicaments)
+         Dates calculées depuis 2026-06-19 (date actuelle du projet)
+    ════════════════════════════════════════════════════════════ -->
+
+    <!-- Lot 1 : Doliprane — grande quantité, péremption normale (> 90j) -->
+    <record id="lot_doliprane_1" model="pharmacie.lot">
+      <field name="numero_lot">LOT/2025/0001</field>
+      <field name="medicament_id" ref="med_paracetamol"/>
+      <field name="date_fabrication">2025-01-10</field>
+      <field name="date_peremption">2027-01-10</field>
+      <field name="quantite_initiale">200</field>
+      <field name="quantite_restante">165</field>
+      <field name="prix_achat_lot">800</field>
+    </record>
+
+    <!-- Lot 2 : Clamoxyl — péremption dans 20 jours (alerte rouge) -->
+    <record id="lot_clamoxyl_alerte" model="pharmacie.lot">
+      <field name="numero_lot">LOT/2025/0002</field>
+      <field name="medicament_id" ref="med_amoxicilline"/>
+      <field name="date_fabrication">2024-07-01</field>
+      <field name="date_peremption">2026-07-09</field>
+      <field name="quantite_initiale">100</field>
+      <field name="quantite_restante">18</field>
+      <field name="prix_achat_lot">2500</field>
+    </record>
+
+    <!-- Lot 3 : Clamoxyl — lot récent, stock normal -->
+    <record id="lot_clamoxyl_recent" model="pharmacie.lot">
+      <field name="numero_lot">LOT/2025/0003</field>
+      <field name="medicament_id" ref="med_amoxicilline"/>
+      <field name="date_fabrication">2025-11-01</field>
+      <field name="date_peremption">2027-11-01</field>
+      <field name="quantite_initiale">150</field>
+      <field name="quantite_restante">120</field>
+      <field name="prix_achat_lot">2500</field>
+    </record>
+
+    <!-- Lot 4 : Coartem — péremption dans 60 jours (alerte orange) -->
+    <record id="lot_coartem_orange" model="pharmacie.lot">
+      <field name="numero_lot">LOT/2025/0004</field>
+      <field name="medicament_id" ref="med_coartem"/>
+      <field name="date_fabrication">2024-09-01</field>
+      <field name="date_peremption">2026-08-18</field>
+      <field name="quantite_initiale">80</field>
+      <field name="quantite_restante">45</field>
+      <field name="prix_achat_lot">4500</field>
+    </record>
+
+    <!-- Lot 5 : Amlor — stock normal -->
+    <record id="lot_amlor_1" model="pharmacie.lot">
+      <field name="numero_lot">LOT/2025/0005</field>
+      <field name="medicament_id" ref="med_amlodipine"/>
+      <field name="date_fabrication">2025-03-01</field>
+      <field name="date_peremption">2028-03-01</field>
+      <field name="quantite_initiale">60</field>
+      <field name="quantite_restante">42</field>
+      <field name="prix_achat_lot">5500</field>
+    </record>
+
+    <!-- Lot 6 : Ciflox — stock faible (sous seuil alerte) -->
+    <record id="lot_ciflox_1" model="pharmacie.lot">
+      <field name="numero_lot">LOT/2025/0006</field>
+      <field name="medicament_id" ref="med_ciprofloxacine"/>
+      <field name="date_fabrication">2025-02-01</field>
+      <field name="date_peremption">2027-02-01</field>
+      <field name="quantite_initiale">50</field>
+      <field name="quantite_restante">8</field>
+      <field name="prix_achat_lot">3000</field>
+    </record>
+
+    <!-- Lot 7 : Bactrim — stock normal -->
+    <record id="lot_bactrim_1" model="pharmacie.lot">
+      <field name="numero_lot">LOT/2025/0007</field>
+      <field name="medicament_id" ref="med_cotrimoxazole"/>
+      <field name="date_fabrication">2025-04-01</field>
+      <field name="date_peremption">2027-04-01</field>
+      <field name="quantite_initiale">100</field>
+      <field name="quantite_restante">72</field>
+      <field name="prix_achat_lot">1800</field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         ORDONNANCES
+    ════════════════════════════════════════════════════════════ -->
+    <record id="ordonnance_1" model="pharmacie.ordonnance">
+      <field name="reference">ORD/2025/0001</field>
+      <field name="patient_nom">Fatou Mbaye</field>
+      <field name="patient_age">34</field>
+      <field name="patient_genre">f</field>
+      <field name="medecin_nom">Dr. Abdoulaye Sy</field>
+      <field name="structure_sante">Clinique Matlaboul Fawzaïni — Touba</field>
+      <field name="date_prescription">2026-06-15</field>
+      <field name="statut">delivree</field>
+      <field name="medicament_ids" eval="[(4, ref('med_amoxicilline')), (4, ref('med_paracetamol'))]"/>
+    </record>
+
+    <record id="ordonnance_2" model="pharmacie.ordonnance">
+      <field name="reference">ORD/2025/0002</field>
+      <field name="patient_nom">Ibrahima Fall</field>
+      <field name="patient_age">52</field>
+      <field name="patient_genre">m</field>
+      <field name="medecin_nom">Dr. Mariama Dieng</field>
+      <field name="structure_sante">Hôpital Principal de Dakar</field>
+      <field name="date_prescription">2026-06-18</field>
+      <field name="statut">attente</field>
+      <field name="medicament_ids" eval="[(4, ref('med_amlodipine'))]"/>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         VENTES (5 ventes confirmées)
+    ════════════════════════════════════════════════════════════ -->
+
+    <!-- Vente 1 : vente simple sans ordonnance -->
+    <record id="vente_1" model="pharmacie.vente">
+      <field name="reference">VTE/2025/0001</field>
+      <field name="vendeur_id" ref="base.user_admin"/>
+      <field name="client_id" ref="client_demo_1"/>
+      <field name="mode_paiement">especes</field>
+      <field name="statut">confirme</field>
+      <field name="date_vente">2026-06-10 09:15:00</field>
+    </record>
+    <record id="vente_1_ligne_1" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_1"/>
+      <field name="medicament_id" ref="med_paracetamol"/>
+      <field name="quantite">2</field>
+      <field name="prix_unitaire">1200</field>
+      <field name="taux_tva">0</field>
+    </record>
+    <record id="vente_1_ligne_2" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_1"/>
+      <field name="medicament_id" ref="med_vitamine_c"/>
+      <field name="quantite">1</field>
+      <field name="prix_unitaire">900</field>
+      <field name="taux_tva">18</field>
+    </record>
+
+    <!-- Vente 2 : vente avec ordonnance — Amoxicilline -->
+    <record id="vente_2" model="pharmacie.vente">
+      <field name="reference">VTE/2025/0002</field>
+      <field name="vendeur_id" ref="base.user_admin"/>
+      <field name="client_id" ref="client_demo_1"/>
+      <field name="ordonnance_id" ref="ordonnance_1"/>
+      <field name="mode_paiement">wave</field>
+      <field name="statut">confirme</field>
+      <field name="date_vente">2026-06-15 10:30:00</field>
+    </record>
+    <record id="vente_2_ligne_1" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_2"/>
+      <field name="medicament_id" ref="med_amoxicilline"/>
+      <field name="quantite">1</field>
+      <field name="prix_unitaire">3500</field>
+      <field name="taux_tva">0</field>
+    </record>
+    <record id="vente_2_ligne_2" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_2"/>
+      <field name="medicament_id" ref="med_paracetamol"/>
+      <field name="quantite">1</field>
+      <field name="prix_unitaire">1200</field>
+      <field name="taux_tva">0</field>
+    </record>
+
+    <!-- Vente 3 : antipaludéen + ibuprofène -->
+    <record id="vente_3" model="pharmacie.vente">
+      <field name="reference">VTE/2025/0003</field>
+      <field name="vendeur_id" ref="base.user_admin"/>
+      <field name="client_id" ref="client_demo_2"/>
+      <field name="mode_paiement">orange_money</field>
+      <field name="statut">confirme</field>
+      <field name="date_vente">2026-06-16 14:00:00</field>
+    </record>
+    <record id="vente_3_ligne_1" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_3"/>
+      <field name="medicament_id" ref="med_coartem"/>
+      <field name="quantite">1</field>
+      <field name="prix_unitaire">6000</field>
+      <field name="taux_tva">0</field>
+    </record>
+    <record id="vente_3_ligne_2" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_3"/>
+      <field name="medicament_id" ref="med_ibuprofene"/>
+      <field name="quantite">2</field>
+      <field name="prix_unitaire">2200</field>
+      <field name="taux_tva">0</field>
+    </record>
+
+    <!-- Vente 4 : client fidélisé, paiement carte -->
+    <record id="vente_4" model="pharmacie.vente">
+      <field name="reference">VTE/2025/0004</field>
+      <field name="vendeur_id" ref="base.user_admin"/>
+      <field name="mode_paiement">carte</field>
+      <field name="statut">confirme</field>
+      <field name="date_vente">2026-06-17 11:00:00</field>
+    </record>
+    <record id="vente_4_ligne_1" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_4"/>
+      <field name="medicament_id" ref="med_paracetamol"/>
+      <field name="quantite">3</field>
+      <field name="prix_unitaire">1200</field>
+      <field name="taux_tva">0</field>
+    </record>
+    <record id="vente_4_ligne_2" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_4"/>
+      <field name="medicament_id" ref="med_vitamine_c"/>
+      <field name="quantite">2</field>
+      <field name="prix_unitaire">900</field>
+      <field name="taux_tva">18</field>
+    </record>
+
+    <!-- Vente 5 : vente Bactrim + Doliprane -->
+    <record id="vente_5" model="pharmacie.vente">
+      <field name="reference">VTE/2025/0005</field>
+      <field name="vendeur_id" ref="base.user_admin"/>
+      <field name="client_id" ref="client_demo_2"/>
+      <field name="mode_paiement">especes</field>
+      <field name="statut">confirme</field>
+      <field name="date_vente">2026-06-19 08:30:00</field>
+    </record>
+    <record id="vente_5_ligne_1" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_5"/>
+      <field name="medicament_id" ref="med_cotrimoxazole"/>
+      <field name="quantite">1</field>
+      <field name="prix_unitaire">2600</field>
+      <field name="taux_tva">0</field>
+    </record>
+    <record id="vente_5_ligne_2" model="pharmacie.vente.ligne">
+      <field name="vente_id" ref="vente_5"/>
+      <field name="medicament_id" ref="med_paracetamol"/>
+      <field name="quantite">1</field>
+      <field name="prix_unitaire">1200</field>
+      <field name="taux_tva">0</field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════════════
+         BON DE COMMANDE FOURNISSEUR DE DÉMONSTRATION
+    ════════════════════════════════════════════════════════════ -->
+    <record id="reappro_demo_1" model="pharmacie.reappro">
+      <field name="reference">BC/2025/0001</field>
+      <field name="fournisseur_id" ref="fournisseur_laborex"/>
+      <field name="date_commande">2026-06-10</field>
+      <field name="date_livraison_prevue">2026-06-15</field>
+      <field name="statut">recu</field>
+      <field name="note_interne">Commande urgente suite à rupture Clamoxyl. Livraison en priorité.</field>
+    </record>
+    <record id="reappro_demo_1_ligne_1" model="pharmacie.reappro.ligne">
+      <field name="reappro_id" ref="reappro_demo_1"/>
+      <field name="medicament_id" ref="med_amoxicilline"/>
+      <field name="quantite_commandee">150</field>
+      <field name="quantite_recue">150</field>
+      <field name="prix_unitaire">2500</field>
+      <field name="date_peremption_prevue">2027-11-01</field>
+    </record>
+    <record id="reappro_demo_1_ligne_2" model="pharmacie.reappro.ligne">
+      <field name="reappro_id" ref="reappro_demo_1"/>
+      <field name="medicament_id" ref="med_cotrimoxazole"/>
+      <field name="quantite_commandee">100</field>
+      <field name="quantite_recue">100</field>
+      <field name="prix_unitaire">1800</field>
+      <field name="date_peremption_prevue">2027-04-01</field>
+    </record>
+
+  </data>
+</odoo>

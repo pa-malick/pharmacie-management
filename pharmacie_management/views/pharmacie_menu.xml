@@ -83,7 +83,7 @@
               name="Rapports"
               parent="menu_pharmacie_root"
               sequence="50"
-              groups="group_pharmacie_pharmacien,group_pharmacie_gestionnaire"/>
+              groups="pharmacie_management.group_pharmacie_pharmacien,pharmacie_management.group_pharmacie_gestionnaire"/>
 
     <menuitem id="menu_pharmacie_bilan_caisse"
               name="Bilan de caisse"
@@ -96,7 +96,7 @@
               name="Configuration"
               parent="menu_pharmacie_root"
               sequence="90"
-              groups="group_pharmacie_pharmacien,group_pharmacie_gestionnaire"/>
+              groups="pharmacie_management.group_pharmacie_pharmacien,pharmacie_management.group_pharmacie_gestionnaire"/>
 
     <menuitem id="menu_pharmacie_categorie"
               name="Catégories de médicaments"

@@ -29,6 +29,7 @@ class PharmacieReapproLigne(models.Model):
         store=True,
     )
     date_peremption_prevue = fields.Date(string='Date de péremption du lot reçu')
+    lot_cree = fields.Boolean(string='Lot créé', default=False, copy=False)
 
     @api.onchange('medicament_id')
     def _onchange_medicament(self):
@@ -114,17 +115,21 @@ class PharmacieReappro(models.Model):
             if reappro.statut not in ('commande', 'partiel'):
                 raise UserError('Seules les commandes en cours peuvent être réceptionnées.')
 
-            all_complete = True
-            for ligne in reappro.ligne_ids:
-                if ligne.quantite_recue <= 0:
-                    all_complete = False
-                    continue
+            lignes_a_traiter = reappro.ligne_ids.filtered(
+                lambda l: l.quantite_recue > 0 and not l.lot_cree
+            )
+            if not lignes_a_traiter:
+                raise UserError(
+                    'Aucune quantité reçue à enregistrer. '
+                    'Renseignez les quantités reçues pour au moins une ligne.'
+                )
+
+            for ligne in lignes_a_traiter:
                 if not ligne.date_peremption_prevue:
                     raise UserError(
                         f'Veuillez renseigner la date de péremption pour : '
                         f'{ligne.medicament_id.nom_commercial}'
                     )
-                # Création du lot correspondant
                 Lot.create({
                     'medicament_id': ligne.medicament_id.id,
                     'quantite_initiale': ligne.quantite_recue,
@@ -133,9 +138,12 @@ class PharmacieReappro(models.Model):
                     'date_peremption': ligne.date_peremption_prevue,
                     'reappro_id': reappro.id,
                 })
-                if ligne.quantite_recue < ligne.quantite_commandee:
-                    all_complete = False
+                ligne.lot_cree = True
 
+            all_complete = all(
+                l.lot_cree and l.quantite_recue >= l.quantite_commandee
+                for l in reappro.ligne_ids
+            )
             reappro.statut = 'recu' if all_complete else 'partiel'
 
     def action_annuler(self):

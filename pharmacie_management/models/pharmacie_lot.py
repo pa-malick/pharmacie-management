@@ -100,3 +100,8 @@ class PharmacieLot(models.Model):
     def _compute_display_name(self):
         for lot in self:
             lot.display_name = f'{lot.numero_lot} — {lot.medicament_id.nom_commercial}'
+
+    def action_rafraichir_statuts(self):
+        # Recalcule le statut de tous les lots (appele par le cron quotidien).
+        lots = self.search([('statut', '!=', 'epuise')])
+        lots._compute_statut()

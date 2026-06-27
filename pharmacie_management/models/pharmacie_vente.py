@@ -130,6 +130,9 @@ class PharmacieVente(models.Model):
     # Actions de workflow : confirmer (avec controles stock + ordonnance), annuler
     def action_confirmer(self):
         for vente in self:
+            if vente.statut != 'brouillon':
+                continue
+
             # Vérification ordonnance pour les médicaments qui l'exigent
             lignes_ordo = vente.ligne_ids.filtered(
                 lambda l: l.medicament_id.sur_ordonnance
@@ -150,7 +153,7 @@ class PharmacieVente(models.Model):
                     )
                 # Décrémentation FEFO (First Expiry First Out)
                 remaining = ligne.quantite
-                lots = self.env['pharmacie.lot'].search([
+                lots = self.env['pharmacie.lot'].sudo().search([
                     ('medicament_id', '=', ligne.medicament_id.id),
                     ('statut', '=', 'valide'),
                     ('quantite_restante', '>', 0),
@@ -159,7 +162,7 @@ class PharmacieVente(models.Model):
                     if remaining <= 0:
                         break
                     debit = min(lot.quantite_restante, remaining)
-                    lot.quantite_restante -= debit
+                    lot.sudo().write({'quantite_restante': lot.quantite_restante - debit})
                     remaining -= debit
 
             vente.write({
@@ -168,7 +171,10 @@ class PharmacieVente(models.Model):
             })
             # Mettre à jour le statut de l'ordonnance si liée
             if vente.ordonnance_id:
-                vente.ordonnance_id.write({'statut': 'delivree'})
+                vente.ordonnance_id.write({
+                    'statut': 'delivree',
+                    'vente_id': vente.id,
+                })
 
     def action_annuler(self):
         for vente in self:
@@ -180,7 +186,13 @@ class PharmacieVente(models.Model):
             vente.statut = 'annule'
 
     def action_brouillon(self):
-        self.write({'statut': 'brouillon'})
+        for vente in self:
+            if vente.statut == 'confirme':
+                raise UserError(
+                    'Une vente confirmée ne peut pas être remise en brouillon. '
+                    'Contactez le pharmacien responsable.'
+                )
+            vente.statut = 'brouillon'
 
     # Attribution automatique de la reference via sequence ir.sequence
     @api.model_create_multi

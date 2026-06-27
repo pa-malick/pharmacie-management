@@ -90,4 +90,17 @@
     </record>
 
   </data>
+
+  <data noupdate="1">
+    <!-- Cron quotidien : recalcule le statut des lots pour detecter les expirations -->
+    <record id="ir_cron_rafraichir_statuts_lots" model="ir.cron">
+      <field name="name">Pharmacie - Mise à jour statut des lots</field>
+      <field name="model_id" ref="model_pharmacie_lot"/>
+      <field name="state">code</field>
+      <field name="code">model.action_rafraichir_statuts()</field>
+      <field name="interval_number">1</field>
+      <field name="interval_type">days</field>
+      <field name="active">True</field>
+    </record>
+  </data>
 </odoo>

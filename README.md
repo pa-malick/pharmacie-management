@@ -1,6 +1,4 @@
 <p align="center">
-  <img src="docs/logo_uadb.png" alt="Université Alioune Diop de Bambey" height="90"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/odoo/documentation/18.0/static/img/odoo_logo.png" alt="Odoo 18" height="60"/>
 </p>
 

@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16
+    container_name: pharmacie_db
+    environment:
+      POSTGRES_DB: odoo18
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  odoo:
+    image: odoo:18.0
+    container_name: pharmacie_odoo
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8069:8069"
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: odoo
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./pharmacie_management:/mnt/extra-addons/pharmacie_management
+      - ./odoo.conf:/etc/odoo/odoo.conf
+    restart: unless-stopped
+    command: odoo --config /etc/odoo/odoo.conf
+
+volumes:
+  pgdata:
+  odoo_data:

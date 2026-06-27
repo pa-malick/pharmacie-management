@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+*.log
+odoo_data/
+pgdata/
+
+# Fichiers Word et temporaires Office
+*.docx
+*.doc
+*.xlsx
+*.xls
+~$*.docx
+~$*.doc
+~WRL*.tmp
+*.tmp

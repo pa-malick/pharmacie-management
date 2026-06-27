@@ -2,9 +2,7 @@
 <odoo>
   <data noupdate="1">
 
-    <!-- ════════════════════════════════════════════════════════════
-         SÉQUENCES
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Sequences automatiques pour les references (MED, LOT, VTE, ORD, BC) -->
     <record id="seq_pharmacie_medicament" model="ir.sequence">
       <field name="name">Référence médicament</field>
       <field name="code">pharmacie.medicament</field>
@@ -45,9 +43,7 @@
       <field name="number_increment">1</field>
     </record>
 
-    <!-- ════════════════════════════════════════════════════════════
-         CATÉGORIES THÉRAPEUTIQUES DE DÉMONSTRATION
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Categories therapeutiques utilisees dans le module -->
     <record id="cat_antibiotiques" model="pharmacie.categorie">
       <field name="name">Antibiotiques</field>
       <field name="code">ATB</field>

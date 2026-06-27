@@ -35,7 +35,7 @@ class PharmacieOrdonnance(models.Model):
         string='Référence', copy=False, readonly=True, default='Nouveau',
     )
 
-    # ── Patient ───────────────────────────────────────────────────────────
+    # Informations du patient
     patient_nom = fields.Char(string='Nom du patient', required=True)
     patient_age = fields.Integer(string='Âge')
     patient_genre = fields.Selection([
@@ -43,7 +43,7 @@ class PharmacieOrdonnance(models.Model):
         ('f', 'Féminin'),
     ], string='Genre')
 
-    # ── Prescripteur ─────────────────────────────────────────────────────
+    # Informations du medecin prescripteur
     medecin_nom = fields.Char(string='Nom du médecin', required=True)
     structure_sante = fields.Char(
         string='Structure de santé',
@@ -54,7 +54,7 @@ class PharmacieOrdonnance(models.Model):
         default=fields.Date.today,
     )
 
-    # ── Médicaments prescrits ─────────────────────────────────────────────
+    # Medicaments prescrits (M2M) et detail des posologies (O2M)
     medicament_ids = fields.Many2many(
         comodel_name='pharmacie.medicament',
         relation='pharmacie_ordonnance_medicament_rel',
@@ -68,7 +68,7 @@ class PharmacieOrdonnance(models.Model):
         string='Détail posologique',
     )
 
-    # ── Statut et lien vente ──────────────────────────────────────────────
+    # Statut de delivrance et lien vers la vente associee
     statut = fields.Selection([
         ('attente', 'En attente'),
         ('partielle', 'Délivrée partiellement'),
@@ -79,12 +79,12 @@ class PharmacieOrdonnance(models.Model):
         string='Vente associée', readonly=True,
     )
 
-    # ── Document numérique ────────────────────────────────────────────────
+    # Scan numerique de l'ordonnance papier (optionnel)
     scan_ordonnance = fields.Binary(string='Scan / Photo de l\'ordonnance')
     scan_ordonnance_name = fields.Char(string='Nom du fichier')
     notes = fields.Text(string='Notes internes')
 
-    # ── Contraintes ───────────────────────────────────────────────────────
+    # Validation : la date de prescription ne peut pas etre dans le futur
     @api.constrains('date_prescription')
     def _check_date_prescription(self):
         today = fields.Date.today()
@@ -94,18 +94,16 @@ class PharmacieOrdonnance(models.Model):
                     'La date de prescription ne peut pas être dans le futur.'
                 )
 
-    # ── Création avec séquence ────────────────────────────────────────────
-    @api.model
-    def create(self, vals):
-        if vals.get('reference', 'Nouveau') == 'Nouveau':
-            vals['reference'] = self.env['ir.sequence'].next_by_code(
-                'pharmacie.ordonnance'
-            ) or 'ORD0001'
-        return super().create(vals)
+    # Attribution automatique de la reference via sequence ir.sequence
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('reference', 'Nouveau') == 'Nouveau':
+                vals['reference'] = self.env['ir.sequence'].next_by_code(
+                    'pharmacie.ordonnance'
+                ) or 'ORD0001'
+        return super().create(vals_list)
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for ordo in self:
-            name = f'{ordo.reference} — {ordo.patient_nom} ({ordo.medecin_nom})'
-            result.append((ordo.id, name))
-        return result
+            ordo.display_name = f'{ordo.reference} — {ordo.patient_nom} ({ordo.medecin_nom})'

@@ -4,10 +4,8 @@ from odoo.exceptions import ValidationError
 
 
 class WizardBilanCaisse(models.TransientModel):
-    """
-    Wizard : bilan de caisse sur une période sélectionnée.
-    Calcule le CA, le nombre de ventes, le panier moyen et le détail par vendeur.
-    """
+    # Wizard de bilan de caisse sur une periode donnee.
+    # Calcule le CA, le nombre de ventes, le panier moyen et le detail par vendeur.
     _name = 'wizard.bilan.caisse'
     _description = 'Bilan de caisse'
 
@@ -18,7 +16,7 @@ class WizardBilanCaisse(models.TransientModel):
         string='Date de fin', required=True, default=fields.Date.today,
     )
 
-    # ── Résultats calculés ─────────────────────────────────────────────
+    # Champs en lecture seule remplis apres clic sur Calculer
     ca_total = fields.Float(string='Chiffre d\'affaires TTC (FCFA)', readonly=True)
     nb_ventes = fields.Integer(string='Nombre de ventes', readonly=True)
     panier_moyen = fields.Float(string='Panier moyen (FCFA)', readonly=True)
@@ -39,7 +37,7 @@ class WizardBilanCaisse(models.TransientModel):
                 )
 
     def action_calculer(self):
-        """Calcule les indicateurs de la période sélectionnée."""
+        # Calcule le CA, le nombre de ventes et le panier moyen sur la periode selectionnee.
         Vente = self.env['pharmacie.vente']
         ventes = Vente.search([
             ('statut', '=', 'confirme'),
@@ -89,7 +87,7 @@ class WizardBilanCaisse(models.TransientModel):
         }
 
     def action_generer_rapport(self):
-        """Lance la génération du rapport PDF de bilan de caisse."""
+        # Lance la generation du rapport PDF de bilan de caisse.
         if not self.calcule:
             self.action_calculer()
         return self.env.ref(

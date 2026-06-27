@@ -84,13 +84,13 @@ class PharmacieReappro(models.Model):
     ], string='Statut', default='brouillon', tracking=True)
     note_interne = fields.Text(string='Notes internes / Conditions de livraison')
 
-    # ── Calculs ──────────────────────────────────────────────────────────
+    # Calcul du montant total a partir des lignes de commande
     @api.depends('ligne_ids.montant_ligne')
     def _compute_montant_total(self):
         for reappro in self:
             reappro.montant_total = sum(reappro.ligne_ids.mapped('montant_ligne'))
 
-    # ── Contraintes ──────────────────────────────────────────────────────
+    # Validation : la date de livraison doit etre apres la date de commande
     @api.constrains('date_commande', 'date_livraison_prevue')
     def _check_dates(self):
         for reappro in self:
@@ -100,7 +100,7 @@ class PharmacieReappro(models.Model):
                     'La date de livraison prévue doit être postérieure à la date de commande.'
                 )
 
-    # ── Workflow ──────────────────────────────────────────────────────────
+    # Actions de workflow : envoyer la commande, receptionner les lots, annuler
     def action_envoyer_commande(self):
         for reappro in self:
             if not reappro.ligne_ids:
@@ -108,10 +108,7 @@ class PharmacieReappro(models.Model):
             reappro.statut = 'commande'
 
     def action_receptionner(self):
-        """
-        Crée automatiquement les lots pharmacie.lot pour chaque ligne reçue
-        et met à jour le statut selon la réception complète ou partielle.
-        """
+        # Cree un lot pharmacie.lot pour chaque ligne recue et met a jour le statut (complet ou partiel).
         Lot = self.env['pharmacie.lot']
         for reappro in self:
             if reappro.statut not in ('commande', 'partiel'):
@@ -147,11 +144,12 @@ class PharmacieReappro(models.Model):
                 raise UserError('Un bon de commande déjà réceptionné ne peut pas être annulé.')
             reappro.statut = 'annule'
 
-    # ── Création avec séquence ────────────────────────────────────────────
-    @api.model
-    def create(self, vals):
-        if vals.get('reference', 'Nouveau') == 'Nouveau':
-            vals['reference'] = self.env['ir.sequence'].next_by_code(
-                'pharmacie.reappro'
-            ) or 'BC0001'
-        return super().create(vals)
+    # Attribution automatique de la reference via sequence ir.sequence
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('reference', 'Nouveau') == 'Nouveau':
+                vals['reference'] = self.env['ir.sequence'].next_by_code(
+                    'pharmacie.reappro'
+                ) or 'BC0001'
+        return super().create(vals_list)

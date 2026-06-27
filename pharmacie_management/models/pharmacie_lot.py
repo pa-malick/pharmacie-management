@@ -43,7 +43,7 @@ class PharmacieLot(models.Model):
         string='Bon de commande d\'origine',
     )
 
-    # ── Calculs ──────────────────────────────────────────────────────────
+    # Calcul du statut (valide / expiré / épuisé) et des jours avant péremption
     @api.depends('date_peremption', 'quantite_restante')
     def _compute_statut(self):
         today = date.today()
@@ -65,7 +65,7 @@ class PharmacieLot(models.Model):
             else:
                 lot.jours_avant_peremption = 0
 
-    # ── Contraintes ──────────────────────────────────────────────────────
+    # Validation des dates et des quantites
     @api.constrains('date_fabrication', 'date_peremption')
     def _check_dates(self):
         for lot in self:
@@ -87,18 +87,16 @@ class PharmacieLot(models.Model):
                     'La quantité restante ne peut pas dépasser la quantité initiale.'
                 )
 
-    # ── Création avec séquence ────────────────────────────────────────────
-    @api.model
-    def create(self, vals):
-        if vals.get('numero_lot', 'Nouveau') == 'Nouveau':
-            vals['numero_lot'] = self.env['ir.sequence'].next_by_code(
-                'pharmacie.lot'
-            ) or 'LOT0001'
-        return super().create(vals)
+    # Attribution automatique du numero de lot via sequence ir.sequence
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('numero_lot', 'Nouveau') == 'Nouveau':
+                vals['numero_lot'] = self.env['ir.sequence'].next_by_code(
+                    'pharmacie.lot'
+                ) or 'LOT0001'
+        return super().create(vals_list)
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for lot in self:
-            name = f'{lot.numero_lot} — {lot.medicament_id.nom_commercial}'
-            result.append((lot.id, name))
-        return result
+            lot.display_name = f'{lot.numero_lot} — {lot.medicament_id.nom_commercial}'

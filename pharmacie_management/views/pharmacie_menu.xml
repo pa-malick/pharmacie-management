@@ -6,9 +6,7 @@
               name="Pharmacie"
               sequence="50"/>
 
-    <!-- ════════════════════════════════════════════════════════════
-         CAISSE
-    ════════════════════════════════════════════════════════════ -->
+    <!-- CAISSE : nouvelle vente et historique -->
     <menuitem id="menu_pharmacie_caisse"
               name="Caisse"
               parent="menu_pharmacie_root"
@@ -26,9 +24,7 @@
               action="action_pharmacie_vente"
               sequence="20"/>
 
-    <!-- ════════════════════════════════════════════════════════════
-         ORDONNANCES
-    ════════════════════════════════════════════════════════════ -->
+    <!-- ORDONNANCES : liste des ordonnances medicales -->
     <menuitem id="menu_pharmacie_ordonnances"
               name="Ordonnances"
               parent="menu_pharmacie_root"
@@ -40,9 +36,7 @@
               action="action_pharmacie_ordonnance"
               sequence="10"/>
 
-    <!-- ════════════════════════════════════════════════════════════
-         STOCK
-    ════════════════════════════════════════════════════════════ -->
+    <!-- STOCK : medicaments, lots et alertes de peremption -->
     <menuitem id="menu_pharmacie_stock"
               name="Stock"
               parent="menu_pharmacie_root"
@@ -61,19 +55,16 @@
               sequence="20"/>
 
     <menuitem id="menu_pharmacie_lot_alertes"
-              name="Alertes péremption / rupture"
+              name="Alertes de péremption / rupture"
               parent="menu_pharmacie_stock"
               action="action_pharmacie_lot_alertes"
               sequence="30"/>
 
-    <!-- ════════════════════════════════════════════════════════════
-         FOURNISSEURS
-    ════════════════════════════════════════════════════════════ -->
+    <!-- FOURNISSEURS : liste et bons de commande (reappro) -->
     <menuitem id="menu_pharmacie_fournisseurs"
               name="Fournisseurs"
               parent="menu_pharmacie_root"
-              sequence="40"
-              groups="group_pharmacie_pharmacien,group_pharmacie_gestionnaire"/>
+              sequence="40"/>
 
     <menuitem id="menu_pharmacie_fournisseur_list"
               name="Liste des fournisseurs"
@@ -87,15 +78,7 @@
               action="action_pharmacie_reappro"
               sequence="20"/>
 
-    <menuitem id="menu_pharmacie_reappro_auto"
-              name="Réappro. automatique (wizard)"
-              parent="menu_pharmacie_fournisseurs"
-              action="action_wizard_reappro_auto"
-              sequence="30"/>
-
-    <!-- ════════════════════════════════════════════════════════════
-         RAPPORTS
-    ════════════════════════════════════════════════════════════ -->
+    <!-- RAPPORTS : bilan de caisse (visible Pharmacien et Gestionnaire) -->
     <menuitem id="menu_pharmacie_rapports"
               name="Rapports"
               parent="menu_pharmacie_root"
@@ -108,15 +91,7 @@
               action="action_wizard_bilan_caisse"
               sequence="10"/>
 
-    <menuitem id="menu_pharmacie_inventaire"
-              name="Inventaire des stocks (PDF)"
-              parent="menu_pharmacie_rapports"
-              action="action_pharmacie_lot"
-              sequence="20"/>
-
-    <!-- ════════════════════════════════════════════════════════════
-         CONFIGURATION (Pharmacien / Gestionnaire uniquement)
-    ════════════════════════════════════════════════════════════ -->
+    <!-- CONFIGURATION : categories et parametres (Pharmacien / Gestionnaire) -->
     <menuitem id="menu_pharmacie_config"
               name="Configuration"
               parent="menu_pharmacie_root"
@@ -130,7 +105,7 @@
               sequence="10"/>
 
     <menuitem id="menu_pharmacie_medicament_alertes"
-              name="Paramètres des alertes"
+              name="Paramètres de la pharmacie"
               parent="menu_pharmacie_config"
               action="action_pharmacie_medicament_alertes"
               sequence="20"/>

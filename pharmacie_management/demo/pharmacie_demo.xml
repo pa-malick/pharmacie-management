@@ -2,9 +2,7 @@
 <odoo>
   <data>
 
-    <!-- ════════════════════════════════════════════════════════════
-         FOURNISSEURS PHARMACEUTIQUES (3)
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Fournisseurs pharmaceutiques avec numero d'agrement DPM -->
     <record id="fournisseur_laborex" model="res.partner">
       <field name="name">Laborex Sénégal</field>
       <field name="is_company">True</field>
@@ -47,9 +45,7 @@
       <field name="supplier_rank">1</field>
     </record>
 
-    <!-- ════════════════════════════════════════════════════════════
-         CLIENTS DE DÉMONSTRATION
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Clients de demonstration -->
     <record id="client_demo_1" model="res.partner">
       <field name="name">Aminata Diallo</field>
       <field name="is_company">False</field>
@@ -66,11 +62,9 @@
       <field name="phone">+221 76 234 89 01</field>
     </record>
 
-    <!-- ════════════════════════════════════════════════════════════
-         MÉDICAMENTS (10)
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Medicaments de demonstration : catalogue de 10 produits representatifs -->
 
-    <!-- 1 — Amoxicilline (Clamoxyl) -->
+    <!-- Medicament 1 : Amoxicilline (Clamoxyl) -->
     <record id="med_amoxicilline" model="pharmacie.medicament">
       <field name="reference">MED/2025/0001</field>
       <field name="nom_commercial">Clamoxyl®</field>
@@ -88,7 +82,7 @@
       <field name="notice">Antibiotique de la famille des pénicillines. Indiqué dans le traitement des infections bactériennes ORL, respiratoires et urinaires. Durée habituelle : 7 jours.</field>
     </record>
 
-    <!-- 2 — Paracétamol (Doliprane) -->
+    <!-- Medicament 2 : Paracetamol (Doliprane) -->
     <record id="med_paracetamol" model="pharmacie.medicament">
       <field name="reference">MED/2025/0002</field>
       <field name="nom_commercial">Doliprane®</field>
@@ -106,7 +100,7 @@
       <field name="notice">Analgésique et antipyrétique. Posologie adulte : 1 à 2 comprimés toutes les 4 à 6 heures. Ne pas dépasser 8 comprimés par jour.</field>
     </record>
 
-    <!-- 3 — Artéméther/Luméfantrine (Coartem) -->
+    <!-- Medicament 3 : Artemether/Lumefantrine (Coartem) -->
     <record id="med_coartem" model="pharmacie.medicament">
       <field name="reference">MED/2025/0003</field>
       <field name="nom_commercial">Coartem®</field>
@@ -124,7 +118,7 @@
       <field name="notice">Antipaludéen de première intention au Sénégal. Traitement sur 3 jours, 2 prises par jour. Prendre avec un repas gras pour améliorer l'absorption.</field>
     </record>
 
-    <!-- 4 — Amlodipine (Amlor) -->
+    <!-- Medicament 4 : Amlodipine (Amlor) -->
     <record id="med_amlodipine" model="pharmacie.medicament">
       <field name="reference">MED/2025/0004</field>
       <field name="nom_commercial">Amlor®</field>
@@ -142,7 +136,7 @@
       <field name="notice">Inhibiteur calcique. Traitement de l'hypertension artérielle et de l'angine de poitrine. Prise unique quotidienne.</field>
     </record>
 
-    <!-- 5 — Ibuprofène (Advil) -->
+    <!-- Medicament 5 : Ibuprofene (Advil) -->
     <record id="med_ibuprofene" model="pharmacie.medicament">
       <field name="reference">MED/2025/0005</field>
       <field name="nom_commercial">Advil®</field>
@@ -160,7 +154,7 @@
       <field name="notice">Anti-inflammatoire non stéroïdien (AINS). À prendre au cours des repas. Contre-indiqué en cas de grossesse, ulcère gastrique ou insuffisance rénale.</field>
     </record>
 
-    <!-- 6 — Vitamine C (Cévirex) -->
+    <!-- Medicament 6 : Vitamine C (Cevirex) -->
     <record id="med_vitamine_c" model="pharmacie.medicament">
       <field name="reference">MED/2025/0006</field>
       <field name="nom_commercial">Cévirex®</field>
@@ -177,7 +171,7 @@
       <field name="alerte_rupture">20</field>
     </record>
 
-    <!-- 7 — Chloroquine (Nivaquine) -->
+    <!-- Medicament 7 : Chloroquine (Nivaquine) -->
     <record id="med_chloroquine" model="pharmacie.medicament">
       <field name="reference">MED/2025/0007</field>
       <field name="nom_commercial">Nivaquine®</field>
@@ -195,7 +189,7 @@
       <field name="notice">Antipaludéen utilisé en prophylaxie. Réservé aux zones de sensibilité confirmée. Sur ordonnance médicale obligatoire.</field>
     </record>
 
-    <!-- 8 — Ciprofloxacine (Ciflox) -->
+    <!-- Medicament 8 : Ciprofloxacine (Ciflox) -->
     <record id="med_ciprofloxacine" model="pharmacie.medicament">
       <field name="reference">MED/2025/0008</field>
       <field name="nom_commercial">Ciflox®</field>
@@ -213,7 +207,7 @@
       <field name="notice">Fluoroquinolone à large spectre. Infections urinaires compliquées, infections respiratoires basses. Durée : 7 à 14 jours selon indication.</field>
     </record>
 
-    <!-- 9 — Diazépam (Valium) — psychotrope -->
+    <!-- Medicament 9 : Diazepam (Valium) - psychotrope, ordonnance obligatoire -->
     <record id="med_diazepam" model="pharmacie.medicament">
       <field name="reference">MED/2025/0009</field>
       <field name="nom_commercial">Valium®</field>
@@ -231,7 +225,7 @@
       <field name="notice">Benzodiazépine. Anxiolytique, myorelaxant. Prescription et dispensation strictement encadrées. Ordonnance sécurisée obligatoire. Risque de dépendance.</field>
     </record>
 
-    <!-- 10 — Cotrimoxazole (Bactrim) -->
+    <!-- Medicament 10 : Cotrimoxazole (Bactrim) -->
     <record id="med_cotrimoxazole" model="pharmacie.medicament">
       <field name="reference">MED/2025/0010</field>
       <field name="nom_commercial">Bactrim Forte®</field>
@@ -249,12 +243,9 @@
       <field name="notice">Association antibiotique bactéricide. Infections urinaires, ORL, pneumocystose. Surveillance de la fonction rénale recommandée.</field>
     </record>
 
-    <!-- ════════════════════════════════════════════════════════════
-         LOTS DE STOCK (7 lots sur 5 médicaments)
-         Dates calculées depuis 2026-06-19 (date actuelle du projet)
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Lots de stock : 7 lots sur 5 medicaments, avec dates de peremption variees -->
 
-    <!-- Lot 1 : Doliprane — grande quantité, péremption normale (> 90j) -->
+    <!-- Lot 1 : Doliprane - grande quantite, peremption normale (plus de 90j) -->
     <record id="lot_doliprane_1" model="pharmacie.lot">
       <field name="numero_lot">LOT/2025/0001</field>
       <field name="medicament_id" ref="med_paracetamol"/>
@@ -265,7 +256,7 @@
       <field name="prix_achat_lot">800</field>
     </record>
 
-    <!-- Lot 2 : Clamoxyl — péremption dans 20 jours (alerte rouge) -->
+    <!-- Lot 2 : Clamoxyl - peremption dans 20 jours (alerte rouge) -->
     <record id="lot_clamoxyl_alerte" model="pharmacie.lot">
       <field name="numero_lot">LOT/2025/0002</field>
       <field name="medicament_id" ref="med_amoxicilline"/>
@@ -276,7 +267,7 @@
       <field name="prix_achat_lot">2500</field>
     </record>
 
-    <!-- Lot 3 : Clamoxyl — lot récent, stock normal -->
+    <!-- Lot 3 : Clamoxyl - lot recent, stock normal -->
     <record id="lot_clamoxyl_recent" model="pharmacie.lot">
       <field name="numero_lot">LOT/2025/0003</field>
       <field name="medicament_id" ref="med_amoxicilline"/>
@@ -287,7 +278,7 @@
       <field name="prix_achat_lot">2500</field>
     </record>
 
-    <!-- Lot 4 : Coartem — péremption dans 60 jours (alerte orange) -->
+    <!-- Lot 4 : Coartem - peremption dans 60 jours (alerte orange) -->
     <record id="lot_coartem_orange" model="pharmacie.lot">
       <field name="numero_lot">LOT/2025/0004</field>
       <field name="medicament_id" ref="med_coartem"/>
@@ -298,7 +289,7 @@
       <field name="prix_achat_lot">4500</field>
     </record>
 
-    <!-- Lot 5 : Amlor — stock normal -->
+    <!-- Lot 5 : Amlor - stock normal -->
     <record id="lot_amlor_1" model="pharmacie.lot">
       <field name="numero_lot">LOT/2025/0005</field>
       <field name="medicament_id" ref="med_amlodipine"/>
@@ -309,7 +300,7 @@
       <field name="prix_achat_lot">5500</field>
     </record>
 
-    <!-- Lot 6 : Ciflox — stock faible (sous seuil alerte) -->
+    <!-- Lot 6 : Ciflox - stock faible (sous le seuil d alerte) -->
     <record id="lot_ciflox_1" model="pharmacie.lot">
       <field name="numero_lot">LOT/2025/0006</field>
       <field name="medicament_id" ref="med_ciprofloxacine"/>
@@ -320,7 +311,7 @@
       <field name="prix_achat_lot">3000</field>
     </record>
 
-    <!-- Lot 7 : Bactrim — stock normal -->
+    <!-- Lot 7 : Bactrim - stock normal -->
     <record id="lot_bactrim_1" model="pharmacie.lot">
       <field name="numero_lot">LOT/2025/0007</field>
       <field name="medicament_id" ref="med_cotrimoxazole"/>
@@ -331,9 +322,7 @@
       <field name="prix_achat_lot">1800</field>
     </record>
 
-    <!-- ════════════════════════════════════════════════════════════
-         ORDONNANCES
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Ordonnances de demonstration -->
     <record id="ordonnance_1" model="pharmacie.ordonnance">
       <field name="reference">ORD/2025/0001</field>
       <field name="patient_nom">Fatou Mbaye</field>
@@ -358,9 +347,7 @@
       <field name="medicament_ids" eval="[(4, ref('med_amlodipine'))]"/>
     </record>
 
-    <!-- ════════════════════════════════════════════════════════════
-         VENTES (5 ventes confirmées)
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Ventes de demonstration : 5 ventes confirmees avec lignes -->
 
     <!-- Vente 1 : vente simple sans ordonnance -->
     <record id="vente_1" model="pharmacie.vente">
@@ -386,7 +373,7 @@
       <field name="taux_tva">18</field>
     </record>
 
-    <!-- Vente 2 : vente avec ordonnance — Amoxicilline -->
+    <!-- Vente 2 : vente avec ordonnance - Amoxicilline -->
     <record id="vente_2" model="pharmacie.vente">
       <field name="reference">VTE/2025/0002</field>
       <field name="vendeur_id" ref="base.user_admin"/>
@@ -482,9 +469,7 @@
       <field name="taux_tva">0</field>
     </record>
 
-    <!-- ════════════════════════════════════════════════════════════
-         BON DE COMMANDE FOURNISSEUR DE DÉMONSTRATION
-    ════════════════════════════════════════════════════════════ -->
+    <!-- Bon de commande fournisseur de demonstration -->
     <record id="reappro_demo_1" model="pharmacie.reappro">
       <field name="reference">BC/2025/0001</field>
       <field name="fournisseur_id" ref="fournisseur_laborex"/>

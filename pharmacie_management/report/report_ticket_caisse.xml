@@ -10,9 +10,9 @@
             <div class="row mb-4">
               <div class="col-12 text-center">
                 <h2 class="text-uppercase">TICKET DE CAISSE</h2>
-                <p class="text-muted">Pharmacie — <t t-esc="vente.company_id.name"/></p>
-                <p><t t-esc="vente.company_id.street"/> — <t t-esc="vente.company_id.city"/></p>
-                <p>Tél : <t t-esc="vente.company_id.phone"/></p>
+                <p class="text-muted">Pharmacie — <t t-esc="env.company.name"/></p>
+                <p><t t-esc="env.company.street"/> — <t t-esc="env.company.city"/></p>
+                <p>Tél : <t t-esc="env.company.phone"/></p>
               </div>
             </div>
 

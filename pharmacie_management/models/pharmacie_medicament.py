@@ -9,7 +9,7 @@ class PharmacieMedicament(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'nom_commercial asc'
 
-    # ── Identification ──────────────────────────────────────────────────
+    # Identification du medicament
     nom_commercial = fields.Char(
         string='Nom commercial', required=True, tracking=True,
     )
@@ -39,7 +39,7 @@ class PharmacieMedicament(models.Model):
         string='Conditionnement', help='ex : Boîte de 24, Flacon 100 mL',
     )
 
-    # ── Classification ──────────────────────────────────────────────────
+    # Classification therapeutique et fournisseur principal
     categorie_id = fields.Many2one(
         comodel_name='pharmacie.categorie',
         string='Catégorie thérapeutique',
@@ -52,7 +52,7 @@ class PharmacieMedicament(models.Model):
         domain=[('is_fournisseur_pharma', '=', True)],
     )
 
-    # ── Tarification ────────────────────────────────────────────────────
+    # Prix d'achat, prix de vente et taux de TVA (0% ou 18%)
     prix_achat = fields.Float(
         string='Prix d\'achat (FCFA)', required=True, tracking=True,
     )
@@ -69,14 +69,14 @@ class PharmacieMedicament(models.Model):
         store=True,
     )
 
-    # ── Réglementation ──────────────────────────────────────────────────
+    # Indique si le medicament necessite une ordonnance pour etre delivre
     sur_ordonnance = fields.Boolean(
         string='Sur ordonnance',
         help='Si coché, la vente est soumise à une ordonnance médicale',
         tracking=True,
     )
 
-    # ── Stock ────────────────────────────────────────────────────────────
+    # Stock disponible (calcule depuis les lots valides) et seuil d'alerte
     stock_actuel = fields.Integer(
         string='Stock actuel (unités)',
         compute='_compute_stock_actuel',
@@ -92,19 +92,19 @@ class PharmacieMedicament(models.Model):
         string='Lots',
     )
 
-    # ── Documentation ────────────────────────────────────────────────────
+    # Notice medicale et photo du produit
     notice = fields.Text(string='Notice / Indications')
     photo = fields.Binary(string='Photo', attachment=True)
     photo_name = fields.Char(string='Nom photo')
 
-    # ── Statut visuel ────────────────────────────────────────────────────
+    # Statut calcule pour l'affichage couleur (ok / alerte / rupture)
     statut_stock = fields.Selection([
         ('ok', 'En stock'),
         ('alerte', 'Alerte rupture'),
         ('rupture', 'En rupture'),
     ], string='Statut stock', compute='_compute_statut_stock', store=True)
 
-    # ── Calculs ──────────────────────────────────────────────────────────
+    # Calcul de la marge commerciale, du stock actuel et du statut
     @api.depends('prix_achat', 'prix_vente')
     def _compute_marge(self):
         for med in self:
@@ -129,7 +129,7 @@ class PharmacieMedicament(models.Model):
             else:
                 med.statut_stock = 'ok'
 
-    # ── Contraintes ──────────────────────────────────────────────────────
+    # Validation : prix negatif interdit, prix de vente >= prix d'achat
     @api.constrains('prix_achat', 'prix_vente')
     def _check_prix(self):
         for med in self:
@@ -141,14 +141,15 @@ class PharmacieMedicament(models.Model):
                     f'inférieur au prix d\'achat ({med.prix_achat} FCFA).'
                 )
 
-    # ── Création avec séquence ────────────────────────────────────────────
-    @api.model
-    def create(self, vals):
-        if vals.get('reference', 'Nouveau') == 'Nouveau':
-            vals['reference'] = self.env['ir.sequence'].next_by_code(
-                'pharmacie.medicament'
-            ) or 'MED0001'
-        return super().create(vals)
+    # Attribution automatique de la reference via sequence ir.sequence
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('reference', 'Nouveau') == 'Nouveau':
+                vals['reference'] = self.env['ir.sequence'].next_by_code(
+                    'pharmacie.medicament'
+                ) or 'MED0001'
+        return super().create(vals_list)
 
     def action_view_lots(self):
         self.ensure_one()
@@ -161,13 +162,11 @@ class PharmacieMedicament(models.Model):
             'context': {'default_medicament_id': self.id},
         }
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for med in self:
             name = med.nom_commercial
             if med.dci:
                 name = f'{name} ({med.dci})'
             if med.dosage:
                 name = f'{name} — {med.dosage}'
-            result.append((med.id, name))
-        return result
+            med.display_name = name

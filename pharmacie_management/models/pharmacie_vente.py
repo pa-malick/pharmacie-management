@@ -119,7 +119,7 @@ class PharmacieVente(models.Model):
     date_vente = fields.Datetime(string='Date de vente', readonly=True)
     note = fields.Text(string='Observations')
 
-    # ── Calculs ──────────────────────────────────────────────────────────
+    # Calcul des totaux HT, TVA et TTC a partir des lignes de vente
     @api.depends('ligne_ids.montant_ht', 'ligne_ids.montant_tva', 'ligne_ids.montant_ttc')
     def _compute_totaux(self):
         for vente in self:
@@ -127,7 +127,7 @@ class PharmacieVente(models.Model):
             vente.tva = sum(vente.ligne_ids.mapped('montant_tva'))
             vente.montant_ttc = sum(vente.ligne_ids.mapped('montant_ttc'))
 
-    # ── Workflow ──────────────────────────────────────────────────────────
+    # Actions de workflow : confirmer (avec controles stock + ordonnance), annuler
     def action_confirmer(self):
         for vente in self:
             # Vérification ordonnance pour les médicaments qui l'exigent
@@ -182,11 +182,12 @@ class PharmacieVente(models.Model):
     def action_brouillon(self):
         self.write({'statut': 'brouillon'})
 
-    # ── Création avec séquence ────────────────────────────────────────────
-    @api.model
-    def create(self, vals):
-        if vals.get('reference', 'Nouveau') == 'Nouveau':
-            vals['reference'] = self.env['ir.sequence'].next_by_code(
-                'pharmacie.vente'
-            ) or 'VTE0001'
-        return super().create(vals)
+    # Attribution automatique de la reference via sequence ir.sequence
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('reference', 'Nouveau') == 'Nouveau':
+                vals['reference'] = self.env['ir.sequence'].next_by_code(
+                    'pharmacie.vente'
+                ) or 'VTE0001'
+        return super().create(vals_list)

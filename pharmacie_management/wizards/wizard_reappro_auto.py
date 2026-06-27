@@ -22,11 +22,8 @@ class WizardReapproAutoLigne(models.TransientModel):
 
 
 class WizardReapproAuto(models.TransientModel):
-    """
-    Wizard : réapprovisionnement automatique des médicaments en alerte.
-    Scanne les médicaments sous le seuil d'alerte et génère les bons de commande
-    regroupés par fournisseur.
-    """
+    # Wizard de reapprovisionnement automatique.
+    # Scanne les medicaments en alerte et genere un bon de commande par fournisseur.
     _name = 'wizard.reappro.auto'
     _description = 'Réapprovisionnement automatique'
 
@@ -36,7 +33,7 @@ class WizardReapproAuto(models.TransientModel):
         string='Médicaments en alerte',
     )
     nb_alertes = fields.Integer(
-        string='Médicaments en alerte', compute='_compute_nb_alertes',
+        string='Nombre d\'alertes', compute='_compute_nb_alertes',
     )
 
     @api.depends('ligne_ids')
@@ -68,10 +65,7 @@ class WizardReapproAuto(models.TransientModel):
         return res
 
     def action_generer_commandes(self):
-        """
-        Génère un bon de commande (pharmacie.reappro) par fournisseur,
-        en regroupant les médicaments sélectionnés.
-        """
+        # Cree un bon de commande par fournisseur en regroupant les medicaments selectionnes.
         lignes_selectionnees = self.ligne_ids.filtered(
             lambda l: l.selected and l.quantite_commander > 0
         )

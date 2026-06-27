@@ -1,4 +1,17 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_categorie_admin,Catégorie Admin,model_pharmacie_categorie,base.group_system,1,1,1,1
+access_medicament_admin,Médicament Admin,model_pharmacie_medicament,base.group_system,1,1,1,1
+access_lot_admin,Lot Admin,model_pharmacie_lot,base.group_system,1,1,1,1
+access_vente_admin,Vente Admin,model_pharmacie_vente,base.group_system,1,1,1,1
+access_vente_ligne_admin,Vente Ligne Admin,model_pharmacie_vente_ligne,base.group_system,1,1,1,1
+access_ordonnance_admin,Ordonnance Admin,model_pharmacie_ordonnance,base.group_system,1,1,1,1
+access_posologie_admin,Posologie Admin,model_pharmacie_posologie,base.group_system,1,1,1,1
+access_reappro_admin,Réappro Admin,model_pharmacie_reappro,base.group_system,1,1,1,1
+access_reappro_ligne_admin,Réappro Ligne Admin,model_pharmacie_reappro_ligne,base.group_system,1,1,1,1
+access_wizard_reappro_admin,Wizard Réappro Admin,model_wizard_reappro_auto,base.group_system,1,1,1,1
+access_wizard_reappro_ligne_admin,Wizard Réappro Ligne Admin,model_wizard_reappro_auto_ligne,base.group_system,1,1,1,1
+access_wizard_bilan_admin,Wizard Bilan Admin,model_wizard_bilan_caisse,base.group_system,1,1,1,1
+access_wizard_bilan_ligne_admin,Wizard Bilan Ligne Admin,model_wizard_bilan_caisse_ligne,base.group_system,1,1,1,1
 access_categorie_vendeur,Catégorie Vendeur,model_pharmacie_categorie,group_pharmacie_vendeur,1,0,0,0
 access_categorie_pharmacien,Catégorie Pharmacien,model_pharmacie_categorie,group_pharmacie_pharmacien,1,1,1,0
 access_categorie_gestionnaire,Catégorie Gestionnaire,model_pharmacie_categorie,group_pharmacie_gestionnaire,1,1,1,1

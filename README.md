@@ -72,9 +72,16 @@ docker compose up -d
 #    Database Name   : odoo18
 #    Language        : French (France)
 #    Country         : Senegal
+#    ⚠️ COCHER LA CASE « Load demonstration data » pour charger les
+#       données de démo (10 médicaments, 3 fournisseurs, 7 lots, 5 ventes)
 
-# 5. Se connecter et installer le module Pharmacie Management
+# 6. Se connecter et installer le module Pharmacie Management
 ```
+
+> **Important — données de démonstration** : les médicaments, fournisseurs,
+> lots et ventes de démonstration ne sont chargés que si l'option
+> **« Load demonstration data »** est cochée lors de la création de la base.
+> Sans cette option, le module s'installe mais reste vide.
 
 ### Mise à jour après modification
 
@@ -89,9 +96,14 @@ docker compose restart odoo
 
 ```bash
 cp -r pharmacie_management /chemin/odoo/addons/
-python odoo-bin -c odoo.conf -d odoo18 -i pharmacie_management
+# Installation AVEC données de démonstration (base neuve) :
+python odoo-bin -c odoo.conf -d odoo18 -i pharmacie_management --without-demo=False
+# Mise à jour ultérieure :
 python odoo-bin -c odoo.conf -d odoo18 -u pharmacie_management
 ```
+
+> Les données de démonstration ne se chargent qu'à la **première installation**
+> sur une base neuve. Ajoutez `--without-demo=False` pour forcer leur chargement.
 
 ---
 

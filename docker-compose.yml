@@ -3,9 +3,9 @@ services:
     image: postgres:16
     container_name: pharmacie_db
     environment:
-      POSTGRES_DB: odoo18
-      POSTGRES_USER: odoo
-      POSTGRES_PASSWORD: odoo
+      POSTGRES_DB: ${DB_NAME:-odoo18}
+      POSTGRES_USER: ${DB_USER:-odoo}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Definissez DB_PASSWORD dans le fichier .env}
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
@@ -25,14 +25,20 @@ services:
       - "8069:8069"
     environment:
       HOST: db
-      USER: odoo
-      PASSWORD: odoo
+      USER: ${DB_USER:-odoo}
+      PASSWORD: ${DB_PASSWORD:?Definissez DB_PASSWORD dans le fichier .env}
+      ADMIN_PASSWD: ${ADMIN_PASSWD:?Definissez ADMIN_PASSWD dans le fichier .env}
     volumes:
       - odoo_data:/var/lib/odoo
       - ./pharmacie_management:/mnt/extra-addons/pharmacie_management
       - ./odoo.conf:/etc/odoo/odoo.conf
     restart: unless-stopped
-    command: odoo --config /etc/odoo/odoo.conf
+    # Les secrets (.env) sont injectes dans une copie temporaire de la config au demarrage,
+    # pour ne jamais les ecrire dans le fichier odoo.conf versionne.
+    command: >
+      sh -c "cp /etc/odoo/odoo.conf /tmp/odoo.conf &&
+             printf 'db_password = %s\nadmin_passwd = %s\n' \"$$PASSWORD\" \"$$ADMIN_PASSWD\" >> /tmp/odoo.conf &&
+             exec odoo --config /tmp/odoo.conf"
 
 volumes:
   pgdata:

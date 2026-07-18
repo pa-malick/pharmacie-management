@@ -57,14 +57,18 @@ En savoir plus sur Odoo : [odoo.com](https://www.odoo.com)
 git clone <url-du-repo>
 cd Pharmacie-Management
 
-# 2. Démarrer les conteneurs
+# 2. Créer le fichier de secrets à partir du modèle
+cp .env.example .env
+#    puis éditez .env pour définir DB_PASSWORD et ADMIN_PASSWD
+
+# 3. Démarrer les conteneurs
 docker compose up -d
 
-# 3. Ouvrir le navigateur après 15 secondes
+# 4. Ouvrir le navigateur après 15 secondes
 # http://localhost:8069/web/database/manager
 
-# 4. Créer la base de données
-#    Master Password : admin123
+# 5. Créer la base de données
+#    Master Password : (la valeur ADMIN_PASSWD de votre fichier .env)
 #    Database Name   : odoo18
 #    Language        : French (France)
 #    Country         : Senegal

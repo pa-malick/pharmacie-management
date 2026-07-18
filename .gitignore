@@ -6,6 +6,9 @@ __pycache__/
 odoo_data/
 pgdata/
 
+# Secrets — ne jamais committer
+.env
+
 # Fichiers Word et temporaires Office
 *.docx
 *.doc
